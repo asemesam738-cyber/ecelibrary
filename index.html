@@ -622,7 +622,7 @@
         </div>
         <ul class="sidebar-menu" id="sidebarMenuList">
             <li><a onclick="showCategoryPage('translated-novels', 'الروايات العالمية المترجمة', 1217)">الروايات العالمية المترجمة</a></li>
-            <li><a onclick="showCategoryPage('arabic-novels', 'روايات عربية', 850)">روايات عربية</a></li>
+            <li><a onclick="showCategoryPage('level-four', 'المستوى الرابع', 850)">المستوى الرابع</a></li>
             <li><a onclick="showCategoryPage('self-dev', 'تنمية بشرية وتطوير الذات', 430)">تنمية بشرية وتطوير الذات</a></li>
             <li><a onclick="showCategoryPage('history', 'كتب تاريخية', 310)">كتب تاريخية</a></li>
             <li><a onclick="showCategoryPage('tech', 'تكنولوجيا وإنترنت', 150)">تكنولوجيا وإنترنت</a></li>
@@ -761,7 +761,7 @@
             </div>
         </div>
         
-        <div id="arabic-novels" class="category-content-container">
+        <div id="level-four" class="category-content-container">
             <div class="books-grid">
                 <div class="book-card">
                     <img src="levelfour/images (35).jpeg" class="book-cover" alt="غلاف كتاب">
@@ -772,6 +772,9 @@
                     </div>
                 </div>
             </div>
+
+
+
         </div>
 
         
@@ -840,7 +843,7 @@
             if(targetContainer) {
                 targetContainer.classList.add('active');
             } else {
-                document.getElementById('arabic-novels').classList.add('active');
+                document.getElementById('level-four').classList.add('active');
             }
 
             categoryPageContainer.style.display = 'block';
