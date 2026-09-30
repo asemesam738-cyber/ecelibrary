@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتبة القمر - أرض الثقافة والمعرفة</title>
+    <title>مكتبة القمر - العاصم </title>
     <!-- خط Tajawal -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- FontAwesome للأيقونات -->
@@ -596,8 +596,8 @@
 
         <div class="logo-container" onclick="showHomePage()">
             <i class="fa-solid fa-book-open logo-icon"></i>
-            <span class="logo-title">مكتبة القمر</span>
-            <span class="logo-subtitle">أرض الثقافة والمعرفة</span>
+            <span class="logo-title">مكتبة العاصم</span>
+            <span class="logo-subtitle">لكتب العلوم والهندسة </span>
         </div>
 
         <div class="header-left">
@@ -622,7 +622,16 @@
         </div>
         <ul class="sidebar-menu" id="sidebarMenuList">
             <li><a onclick="showCategoryPage('translated-novels', 'الروايات العالمية المترجمة', 1217)">الروايات العالمية المترجمة</a></li>
-            <li><a onclick="showCategoryPage('level-four', 'المستوى الرابع', 850)">المستوى الرابع</a></li>
+            
+            <li><a onclick="showCategoryPage('levelOne','المستوى الاول',4)">المستوى الاول</a></li>
+            
+            <li><a onclick="showCategoryPage('levelTwo','المستوى الثاني',4)">المستوى الثاني</a></li>
+            
+            <li><a onclick="showCategoryPage('levelThree','المستوى الثالث',4)">المستوى الثالث</a></li>
+            <li><a onclick="showCategoryPage('levelFour', 'المستوى الرابع', 850)">المستوى الرابع</a></li>
+            
+            <li><a onclick="showCategoryPage('levelFive', 'المستوى الخامس', 850)">المستوى الخامس</a></li>
+            
             <li><a onclick="showCategoryPage('self-dev', 'تنمية بشرية وتطوير الذات', 430)">تنمية بشرية وتطوير الذات</a></li>
             <li><a onclick="showCategoryPage('history', 'كتب تاريخية', 310)">كتب تاريخية</a></li>
             <li><a onclick="showCategoryPage('tech', 'تكنولوجيا وإنترنت', 150)">تكنولوجيا وإنترنت</a></li>
@@ -636,14 +645,14 @@
         
         <section class="hero-section">
             <h1 class="hero-title">
-                مكتبة القمر أرض الثقافة<br>
-                والمعرفة كتب مجانية<br>
-                وروايات ممتعة
+                مكتبة العاصم علوم <br>
+                وهندسة ،اكترونيات ،إتصالات<br>
+                الثقافة والمعرفة
             </h1>
             <p class="hero-subtitle">
-                ابحث في آلاف الكتب والروايات بالمجان<br>
+                ابحث في آلاف الكتب والهندسة بالمجان<br>
                 باقة مشرقة من المعرفة تتألق في<br>
-                مكتبة القمر
+                مكتبة العاصم
             </p>
             <div class="search-box">
                 <button><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -655,7 +664,7 @@
             <h2 class="section-header-title">
                 استكشف عالم الثقافة<br>
                 والمعرفة ابحث عبر<br>
-                أقسام مكتبة القمر
+                أقسام مكتبة العاصم
             </h2>
 
             <div class="categories-grid">
@@ -684,6 +693,36 @@
                     <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=500&q=80" alt="كتب تاريخية">
                     <div class="category-overlay">
                         <span class="category-title">كتب تاريخية</span>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategoryPage('levelOne', 'المستوى الاول',4)">
+                    <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=500&q=80" alt="كتب مستوى اول">
+                    <div class="category-overlay">
+                        <span class="category-title">كتب مستوى اول</span>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategoryPage('levelTwo', 'المستوى الثاني',4)">
+                    <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=500&q=80" alt="كتب مستوى ثاني">
+                    <div class="category-overlay">
+                        <span class="category-title">كتب مستوى ثاني</span>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategoryPage('levelThree', 'المستوى الثالث',4)">
+                    <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=500&q=80" alt="كتب مستوى ثالث">
+                    <div class="category-overlay">
+                        <span class="category-title">كتب مستوى ثالث</span>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategoryPage('levelFour', 'المستوى الرابع',850)">
+                    <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=500&q=80" alt="كتب مستوى رابع">
+                    <div class="category-overlay">
+                        <span class="category-title">كتب مستوى رابع</span>
+                    </div>
+                </div>
+                <div class="category-card" onclick="showCategoryPage('levelFive', 'المستوى الخامس',850)">
+                    <img src="https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=500&q=80" alt="كتب مستوى خامس ">
+                    <div class="category-overlay">
+                        <span class="category-title">كتب مستوى خامس</span>
                     </div>
                 </div>
             </div>
@@ -760,8 +799,48 @@
                 </div>
             </div>
         </div>
-        
-        <div id="level-four" class="category-content-container">
+
+        <!-- تم إزالة المسافة القبلية في أسماء الـ id هنا -->
+        <div id="levelOne" class="category-content-container">
+            <div class="books-grid">
+                <div class="book-card">
+                    <img src="levelfour/images (35).jpeg" class="book-cover" alt="غلاف كتاب">
+                    <div class="book-body">
+                        <h3 class="book-title">L1</h3>
+                        <p class="book-author">A. Balanis</p>
+                        <button class="book-action-btn" data-title="Antenna Theory Analysis and Design,” 3rd Edition" data-pdf="levelfour/A. Balanis, “Antenna Theory Analysis and Design,” 3rd Edition .pdf">تحميل وقراءة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="levelTwo" class="category-content-container">
+            <div class="books-grid">
+                <div class="book-card">
+                    <img src="levelfour/images (35).jpeg" class="book-cover" alt="غلاف كتاب">
+                    <div class="book-body">
+                        <h3 class="book-title">L2</h3>
+                        <p class="book-author">A. Balanis</p>
+                        <button class="book-action-btn" data-title="Antenna Theory Analysis and Design,” 3rd Edition" data-pdf="levelfour/A. Balanis, “Antenna Theory Analysis and Design,” 3rd Edition .pdf">تحميل وقراءة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="levelThree" class="category-content-container">
+            <div class="books-grid">
+                <div class="book-card">
+                    <img src="levelfour/images (35).jpeg" class="book-cover" alt="غلاف كتاب">
+                    <div class="book-body">
+                        <h3 class="book-title">L3</h3>
+                        <p class="book-author">A. Balanis</p>
+                        <button class="book-action-btn" data-title="Antenna Theory Analysis and Design,” 3rd Edition" data-pdf="levelfour/A. Balanis, “Antenna Theory Analysis and Design,” 3rd Edition .pdf">تحميل وقراءة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="levelFour" class="category-content-container">
             <div class="books-grid">
                 <div class="book-card">
                     <img src="levelfour/images (35).jpeg" class="book-cover" alt="غلاف كتاب">
@@ -772,12 +851,21 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
 
-        
+        <div id="levelFive" class="category-content-container">
+            <div class="books-grid">
+                <div class="book-card">
+                    <img src="levelfour/images (35).jpeg" class="book-cover" alt="غلاف كتاب">
+                    <div class="book-body">
+                        <h3 class="book-title">L5</h3>
+                        <p class="book-author">A. Balanis</p>
+                        <button class="book-action-btn" data-title="Antenna Theory Analysis and Design,” 3rd Edition" data-pdf="levelfour/A. Balanis, “Antenna Theory Analysis and Design,” 3rd Edition .pdf">تحميل وقراءة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="self-dev" class="category-content-container">
             <div class="no-books-msg">لا توجد كتب مضافة في هذا القسم حالياً.</div>
         </div>
@@ -843,7 +931,7 @@
             if(targetContainer) {
                 targetContainer.classList.add('active');
             } else {
-                document.getElementById('level-four').classList.add('active');
+                document.getElementById('arabic-novels').classList.add('active');
             }
 
             categoryPageContainer.style.display = 'block';
@@ -946,5 +1034,6 @@
             }
         });
     </script>
+
 </body>
 </html>
