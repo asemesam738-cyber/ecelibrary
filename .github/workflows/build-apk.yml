@@ -5,6 +5,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+env:
+  ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,6 +21,16 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install npm dependencies
+        # Use npm ci if you have package-lock.json; fallback to npm install
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+      - name: Build web assets
+        # استبدل الأمر التالي بأمر البناء الخاص بمشروعك (مثلاً npm run build أو ionic build)
+        run: |
+          if npm run | grep -q "build"; then npm run build; else echo "No build script defined, skipping"; fi
+
       - name: Set up Java JDK
         uses: actions/setup-java@v4
         with:
@@ -26,20 +39,32 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          api-level: 33
+          build-tools: 33.0.2
 
-      - name: Install Capacitor & Build App
+      - name: Ensure Android local.properties points to SDK
         run: |
-          npm init -y
-          npm install @capacitor/core @capacitor/cli @capacitor/android
-          npx cap init "PDFApp" com.pdf.app --web-dir .
-          npx cap add android
-          npx cap sync android
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
+        if: always()
+
+      - name: Install Capacitor (only if not already in package.json) and sync Android
+        run: |
+          # إذا المشروع فعلاً يستخدم Capacitor وتوجد الحزم في package.json فلا تعيد التثبيت.
+          if ! npm ls @capacitor/core >/dev/null 2>&1; then
+            npm install @capacitor/core @capacitor/cli @capacitor/android
+          fi
+          # فرضياً web-dir = build أو www؛ إذا لديك web-dir مختلف ضعه هنا
+          npx cap sync android --no-launch
+
+      - name: Show android tree for debugging
+        run: ls -R android || true
 
       - name: Build APK with Gradle
+        working-directory: android
         run: |
-          cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
