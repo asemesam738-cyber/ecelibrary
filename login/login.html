@@ -176,7 +176,7 @@
                     <input type="checkbox" class="rounded border-slate-700 bg-slate-900 text-sky-500 focus:ring-sky-500/30 w-4 h-4">
                     <span>تذكرني</span>
                 </label>
-                <a href="#" id="forgot-password-btn" class="text-sky-400 hover:text-sky-300 transition">نسيت كلمة المرور؟</a>
+                <a href="#" id="forgot-password-btn" onclick="showToast('إعادة التعيين', 'تواصل مع الدعم الفني لإعادة تعيين كلمة المرور', 'info')" class="text-sky-400 hover:text-sky-300 transition">نسيت كلمة المرور؟</a>
             </div>
 
             <!-- Submit Button -->
@@ -255,175 +255,64 @@
         
     </div>
 
-    <!-- Firebase Firebase SDK Module Script -->
-    <script type="module">
+    <!-- Script Block for PHP Server Interactions and Page Logic -->
+    <script>
         const PHP_SERVER_URL = "http://alsem-library-telecom.infinityfreeapp.com";
-        async function handleSignUp(fullName, email, password) {
-  try {
-    const response = await fetch(`${PHP_SERVER_URL}/signup.php`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fullName, email, password })
-    });
 
-    const data = await response.json();
-
-    if (data.success) {
-      alert(data.message); // تم إنشاء الحساب بنجاح!
-      // يمكنك التبديل لنموذج تسجيل الدخول تلقائياً
-    } else {
-      alert(data.message); // مثل: البريد موجود مسبقاً
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("حدث خطأ في الاتصال بالخادم.");
-  }
-}
-
-        async function handleSignIn(email, password) {
-  try {
-    const response = await fetch(`${PHP_SERVER_URL}/login.php`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      // حفظ بيانات المستخدم في المتصفح ليتعرف عليه الموقع في الصفحة الرئيسية
-      localStorage.setItem("currentUser", JSON.stringify(data.user));
-      alert("تم تسجيل الدخول بنجاح!");
-
-      // التوجيه فوراً للصفحة الرئيسية
-      window.location.href = "index.html";
-    } else {
-      alert(data.message); // كلمة المرور خطأ أو الحساب غير موجود
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    alert("حدث خطأ في الاتصال بالخادم.");
-  }
-}
-
-        
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { 
-            getAuth, 
-            createUserWithEmailAndPassword, 
-            signInWithEmailAndPassword,
-            sendPasswordResetEmail,
-            updateProfile
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { 
-            getFirestore, 
-            doc, 
-            setDoc, 
-            getDoc,
-            serverTimestamp
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // =========================================================================
-        // 🔑 إعدادات الفايربيس (Firebase Configuration)
-        // قم باستبدال القيم التالية بمعلومات مشروعك من كونسول الفايربيس (Firebase Console)
-        // =========================================================================
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT.firebasestorage.app",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-        // تهيئة الفايربيس
-        let app, auth, db;
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-        } catch (error) {
-            console.error("Firebase init error:", error);
-        }
-
-        // ربط أحداث النموذج
-        document.getElementById('signup-form').addEventListener('submit', handleSignUp);
-        document.getElementById('signin-form').addEventListener('submit', handleSignIn);
-        document.getElementById('forgot-password-btn').addEventListener('click', handleForgotPassword);
-
-        async function handleSignUp(e) {
+        // التعامل مع إنشاء حساب جديد (Sign Up)
+        document.getElementById('signup-form').addEventListener('submit', async function (e) {
             e.preventDefault();
 
-            const name = document.getElementById('signup-name').value.trim();
+            const fullName = document.getElementById('signup-name').value.trim();
             const email = document.getElementById('signup-email').value.trim().toLowerCase();
             const password = document.getElementById('signup-password').value;
             const confirmPassword = document.getElementById('signup-confirm-password').value;
             const submitBtn = document.getElementById('signup-submit-btn');
 
-            // 1. التحقق من مطابقة كلمتي المرور
             if (password !== confirmPassword) {
-                window.showToast('خطأ في البيانات', 'كلمتا المرور غير متطابقتين!', 'error');
+                showToast('خطأ في البيانات', 'كلمتا المرور غير متطابقتين!', 'error');
                 return;
             }
 
             if (password.length < 6) {
-                window.showToast('كلمة مرور ضعيفة', 'يجب أن تحتوي كلمة المرور على 6 أحرف/أرقام على الأقل', 'warning');
+                showToast('كلمة مرور ضعيفة', 'يجب أن تحتوي كلمة المرور على 6 أحرف/أرقام على الأقل', 'warning');
                 return;
             }
 
-            // تعطيل الزر وعرض حالة التحميل
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span> جاري إنشاء الحساب...</span>';
 
             try {
-                // 2. إنشاء المستخدم في Firebase Auth أونلاين
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                // تحديث اسم المستخدم في Auth
-                await updateProfile(user, { displayName: name });
-
-                // 3. تخزين بيانات المستخدم كاملة في مجموعات Firestore الخاصة بالإنترنت
-                const userDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid);
-                await setDoc(userDocRef, {
-                    uid: user.uid,
-                    name: name,
-                    email: email,
-                    createdAt: serverTimestamp(),
-                    role: 'user'
+                const response = await fetch(`${PHP_SERVER_URL}/signup.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName, email, password })
                 });
 
-                window.showToast('تم إنشاء الحساب', 'تم التسجيل أونلاين وحفظ بياناتك بنجاح!', 'success');
+                const data = await response.json();
 
-                // إعادة تعيين النموذج
-                document.getElementById('signup-form').reset();
-                document.getElementById('signin-email').value = email;
+                if (data.success) {
+                    showToast('تم بنجاح', data.message || 'تم إنشاء الحساب بنجاح!', 'success');
+                    document.getElementById('signup-form').reset();
+                    document.getElementById('signin-email').value = email;
 
-                // التبديل التلقائي لنموذج تسجيل الدخول
-                setTimeout(() => {
-                    window.switchForm('signin');
-                }, 1200);
-
-            } catch (error) {
-                console.error("Firebase Signup Error:", error.code, error.message);
-                
-                // معالجة خطأ وجود البريد مسبقاً وفق المطلوب
-                if (error.code === 'auth/email-already-in-use') {
-                    window.showToast('حساب موجود بالفعّل', 'يوجد حساب مسجل بهذا البريد الإلكتروني مسبقاً!', 'warning');
-                } else if (error.code === 'auth/invalid-email') {
-                    window.showToast('البريد غير صحيح', 'يرجى كتابة بريد إلكتروني بشكل صحيح.', 'error');
+                    setTimeout(() => {
+                        switchForm('signin');
+                    }, 1200);
                 } else {
-                    window.showToast('فشل التسجيل', 'حدث خطأ في الاتصال بالخادم، يرجى المحاولة لاحقاً', 'error');
+                    showToast('تنبيه', data.message || 'حدث خطأ أثناء التسجيل', 'warning');
                 }
+            } catch (error) {
+                console.error("Error:", error);
+                showToast('خطأ بالاتصال', 'تعذر الاتصال بالسيرفر، يرجى المحاولة لاحقاً', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>إنشاء الحساب</span><i class="fa-solid fa-user-check"></i>';
             }
-        }
+        });
 
-        async function handleSignIn(e) {
+        // التعامل مع تسجيل الدخول (Sign In)
+        document.getElementById('signin-form').addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const email = document.getElementById('signin-email').value.trim().toLowerCase();
@@ -434,63 +323,33 @@
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span> جاري التحقق...</span>';
 
             try {
-                // 1. تسجيل الدخول عبر Firebase Auth
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
+                const response = await fetch(`${PHP_SERVER_URL}/login.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
 
-                // 2. جلب بيانات ملف المستخدم من Firestore
-                const userDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'users', user.uid);
-                const userSnap = await getDoc(userDocRef);
+                const data = await response.json();
 
-                let userName = user.displayName || 'مستخدم';
-                if (userSnap.exists()) {
-                    userName = userSnap.data().name || userName;
-                }
+                if (data.success) {
+                    localStorage.setItem("currentUser", JSON.stringify(data.user));
+                    showToast('تم تسجيل الدخول', `أهلاً بك مجدداً، ${data.user.fullName || 'مستخدم'}!`, 'success');
 
-                window.showToast('تم تسجيل الدخول', `أهلاً بك مجدداً، ${userName}!`, 'success');
-
-            } catch (error) {
-                console.error("Firebase Signin Error:", error.code);
-
-                // معالجة الأخطاء الدقيقة لحالة عدم وجود حساب أو كلمة مرور خاطئة
-                if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-                    window.showToast('حساب غير موجود', 'لا يوجد حساب مرتبط بهذا البريد الإلكتروني، أو كلمة المرور غير صحيحة!', 'error');
-                } else if (error.code === 'auth/wrong-password') {
-                    window.showToast('كلمة المرور خاطئة', 'كلمة المرور التي أخلتها غير صحيحة!', 'error');
-                } else if (error.code === 'auth/too-many-requests') {
-                    window.showToast('تنبيه أمان', 'تم محاولة الدخول عدة مرات بشكل خاطئ، يرجى الانتظار قليلاً', 'warning');
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 1000);
                 } else {
-                    window.showToast('خطأ في الدخول', 'تأكد من البيانات المدخلة ومن الاتصال بالإنترنت', 'error');
+                    showToast('فشل الدخول', data.message || 'البريد أو كلمة المرور غير صحيحة!', 'error');
                 }
+            } catch (error) {
+                console.error("Error:", error);
+                showToast('خطأ بالاتصال', 'تعذر الاتصال بالسيرفر، يرجى المحاولة لاحقاً', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>دخول</span><i class="fa-solid fa-arrow-left"></i>';
             }
-        }
+        });
 
-        async function handleForgotPassword(e) {
-            e.preventDefault();
-            const email = document.getElementById('signin-email').value.trim();
-
-            if (!email) {
-                window.showToast('البريد المطلوب', 'يرجى إدخال البريد الإلكتروني في حقل الدخول أولاً', 'warning');
-                return;
-            }
-
-            try {
-                await sendPasswordResetEmail(auth, email);
-                window.showToast('إعادة تعيين كلمة المرور', 'تم إرسال رابط إعادة التعيين إلى بريدك الإلكتروني بنجاح', 'info');
-            } catch (error) {
-                if (error.code === 'auth/user-not-found') {
-                    window.showToast('حساب غير موجود', 'لا يوجد حساب مسجل بهذا البريد لإعادة التعيين!', 'error');
-                } else {
-                    window.showToast('خطأ', 'فشل إرسال البريد الإلكتروني، تحقق من صحة العنوان', 'error');
-                }
-            }
-        }
-    </script>
-
-    <script>
         // Switch between Sign In and Sign Up Forms
         function switchForm(type) {
             const signinForm = document.getElementById('signin-form');
@@ -572,10 +431,6 @@
                 toast.classList.remove('show');
             }, 4000);
         }
-
-        // Export functions to window for Firebase script block usage
-        window.switchForm = switchForm;
-        window.showToast = showToast;
     </script>
 </body>
-  </html>
+</html>
