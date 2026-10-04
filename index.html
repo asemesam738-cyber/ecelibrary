@@ -617,8 +617,16 @@
                     <i class="fa-solid fa-caret-down" style="font-size: 0.7rem;"></i>
                 </button>
                 <div class="user-dropdown" id="userDropdown">
-                    <a href="#">Sign In</a>
-                    <a href="#">Sign Up</a>
+                    <!-- تظهر للزائر الذي لم يسجل دخوله -->
+                    <div id="authLinks" style="display: flex; flex-direction: column;">
+                        <a href="login/login.html?mode=signin">Sign In</a>
+                        <a href="login/login.html?mode=signup">Sign Up</a>
+                    </div>
+                    <!-- تظهر للمستخدم بعد تسجيل الدخول -->
+                    <div id="userInfo" style="display: none; padding: 8px 12px; flex-direction: column; gap: 6px;">
+                        <span id="user-name" style="font-size: 0.85rem; font-weight: bold; color: #38bdf8;"></span>
+                        <a href="javascript:void(0)" onclick="logout()" style="color: #f87171; padding: 0; margin-top: 4px;">تسجيل الخروج</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -930,7 +938,8 @@
     </div>
 
     <!-- JavaScript -->
-    <script>
+
+     <script>
         const homePageContainer = document.getElementById('homePageContainer');
         const categoryPageContainer = document.getElementById('categoryPageContainer');
         
@@ -1065,35 +1074,39 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(() => console.log('Service Worker registered'))
-            .catch(error => console.error('Service Worker error:', error));
-    });
+                navigator.serviceWorker.register('./sw.js')
+                    .then(() => console.log('Service Worker registered'))
+                    .catch(error => console.error('Service Worker error:', error));
+            });
         }
+
+        // --- منطق حالة المستخدم وتسجيل الدخول / الخروج ---
         window.addEventListener("DOMContentLoaded", () => {
-  // جلب بيانات المستخدم المسجلة بالمتصفح
             const savedUser = localStorage.getItem("currentUser");
-            if (!savedUser) {
-    // إذا لم يقم بإنشاء حساب أو تسجيل الدخول، يتم نقله لصفحة الدخول تلقائي
-                window.location.href = "login/login.html";
-            } else {
+            const authLinks = document.getElementById("authLinks");
+            const userInfo = document.getElementById("userInfo");
+            const userNameElement = document.getElementById("user-name");
+
+            if (savedUser) {
                 const user = JSON.parse(savedUser);
-    
-    // عرض اسم المستخدم في الصفحة (إذا كان لديك عنصر يحمل id="user-name")
-                const userNameElement = document.getElementById("user-name");
+                if (authLinks) authLinks.style.display = "none";
+                if (userInfo) userInfo.style.display = "flex";
                 if (userNameElement) {
-                    userNameElement.innerText = user.fullName;
+                    userNameElement.innerText = user.fullName || user.email;
                 }
+            } else {
+                if (authLinks) authLinks.style.display = "flex";
+                if (userInfo) userInfo.style.display = "none";
             }
         });
 
-// كود زر تسجيل الخروج
+        // كود زر تسجيل الخروج
         function logout() {
             localStorage.removeItem("currentUser");
-            window.location.href = "login.html";
+            window.location.reload();
         }
-
     </script>
+
 
 </body>
 </html>
