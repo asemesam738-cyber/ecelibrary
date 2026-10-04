@@ -1070,6 +1070,30 @@
             .catch(error => console.error('Service Worker error:', error));
     });
         }
+        window.addEventListener("DOMContentLoaded", () => {
+  // جلب بيانات المستخدم المسجلة بالمتصفح
+  const savedUser = localStorage.getItem("currentUser");
+
+  if (!savedUser) {
+    // إذا لم يقم بإنشاء حساب أو تسجيل الدخول، يتم نقله لصفحة الدخول تلقائياً
+    window.location.href = "login.html";
+  } else {
+    const user = JSON.parse(savedUser);
+    
+    // عرض اسم المستخدم في الصفحة (إذا كان لديك عنصر يحمل id="user-name")
+    const userNameElement = document.getElementById("user-name");
+    if (userNameElement) {
+      userNameElement.innerText = user.fullName;
+    }
+  }
+});
+
+// كود زر تسجيل الخروج
+function logout() {
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
+}
+
     </script>
 
 </body>
