@@ -617,8 +617,8 @@
                     <i class="fa-solid fa-caret-down" style="font-size: 0.7rem;"></i>
                 </button>
                 <div class="user-dropdown" id="userDropdown">
-                    <a href="login/login.html">Sign In</a>
-                    <a href="login/login.html">Sign Up</a>
+                    <a href="#">Sign In</a>
+                    <a href="#">Sign Up</a>
                 </div>
             </div>
         </div>
@@ -1075,7 +1075,7 @@
             const savedUser = localStorage.getItem("currentUser");
             if (!savedUser) {
     // إذا لم يقم بإنشاء حساب أو تسجيل الدخول، يتم نقله لصفحة الدخول تلقائي
-                window.location.href = "login/loginlogin.html";
+                window.location.href = "login/login.html";
             } else {
                 const user = JSON.parse(savedUser);
     
