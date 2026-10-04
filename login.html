@@ -257,6 +257,56 @@
 
     <!-- Firebase Firebase SDK Module Script -->
     <script type="module">
+        const PHP_SERVER_URL = "http://alsem-library-telecom.infinityfreeapp.com";
+        async function handleSignUp(fullName, email, password) {
+  try {
+    const response = await fetch(`${PHP_SERVER_URL}/signup.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fullName, email, password })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      alert(data.message); // تم إنشاء الحساب بنجاح!
+      // يمكنك التبديل لنموذج تسجيل الدخول تلقائياً
+    } else {
+      alert(data.message); // مثل: البريد موجود مسبقاً
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("حدث خطأ في الاتصال بالخادم.");
+  }
+}
+
+        async function handleSignIn(email, password) {
+  try {
+    const response = await fetch(`${PHP_SERVER_URL}/login.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      // حفظ بيانات المستخدم في المتصفح ليتعرف عليه الموقع في الصفحة الرئيسية
+      localStorage.setItem("currentUser", JSON.stringify(data.user));
+      alert("تم تسجيل الدخول بنجاح!");
+
+      // التوجيه فوراً للصفحة الرئيسية
+      window.location.href = "index.html";
+    } else {
+      alert(data.message); // كلمة المرور خطأ أو الحساب غير موجود
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("حدث خطأ في الاتصال بالخادم.");
+  }
+}
+
+        
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { 
             getAuth, 
